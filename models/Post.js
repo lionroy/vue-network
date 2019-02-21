@@ -17,14 +17,16 @@ const PostSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  likes: {
-    type: Number,
-    default: 0
-  },
   createdDate: {
     type: Date,
     default: Date.now
   },
+  likes: {
+    type: Number,
+    default: 0
+  },
+  // property ('createdBy') === path
+  // ref ('User') === model
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
