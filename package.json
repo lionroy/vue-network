@@ -5,23 +5,25 @@
   "main": "server.js",
   "scripts": {
     "server": "nodemon server.js",
-    "client": "cd client && npm start",
+    "client": "cd client && npm run serve",
     "dev": "concurrently --names \"server,client\" \"npm run server --silent\" \"npm run client --silent\""
   },
   "keywords": [],
   "author": "Reed Barger",
   "license": "ISC",
   "dependencies": {
-    "apollo-server": "^2.0.0-rc.7",
+    "apollo-server": "^2.4.2",
     "bcrypt": "^3.0.0",
     "dotenv": "^6.0.0",
     "graphql": "^0.13.2",
     "jsonwebtoken": "^8.3.0",
     "md5": "^2.2.1",
-    "mongoose": "^5.2.6"
+    "mongoose": "^5.4.14"
   },
   "devDependencies": {
     "concurrently": "^3.6.0",
-    "nodemon": "^1.18.1"
+    "nodemon": "^1.18.1",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2"
   }
 }
