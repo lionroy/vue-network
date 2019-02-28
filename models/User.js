@@ -1,12 +1,6 @@
 const mongoose = require("mongoose");
-
 const md5 = require("md5");
-const ObjectId = require("mongoose").Types.ObjectId;
 const bcrypt = require("bcrypt");
-
-ObjectId.prototype.valueOf = function() {
-  return this.toString();
-};
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -39,12 +33,13 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
-// create and add avatar
+// Create and add avatar to user
 UserSchema.pre("save", function(next) {
-  this.avatar = `http://gravatar/com/avatar/${md5(this.username)}?d=identicon`;
+  this.avatar = `http://gravatar.com/avatar/${md5(this.username)}?d=identicon`;
   next();
 });
 
+// Hash password so it can't be seen w/ access to database
 UserSchema.pre("save", function(next) {
   if (!this.isModified("password")) {
     return next();
