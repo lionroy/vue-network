@@ -5,7 +5,7 @@
     "guid": "5cd60212-518e-4348-9afd-76c6b2effdbe",
     "isActive": true,
     "balance": "$3,553.51",
-    "picture": "http://placehold.it/32x32",
+    "imageUrl": "http://placehold.it/32x32",
     "age": 27,
     "eyeColor": "green",
     "name": {
@@ -45,7 +45,7 @@
     "guid": "baa50bcd-8086-4e19-8c7d-3491bc6f0799",
     "isActive": true,
     "balance": "$2,697.26",
-    "picture": "http://placehold.it/32x32",
+    "imageUrl": "http://placehold.it/32x32",
     "age": 34,
     "eyeColor": "green",
     "name": {
@@ -85,7 +85,7 @@
     "guid": "115db658-f141-452a-a46f-c354fff46e9d",
     "isActive": false,
     "balance": "$2,946.84",
-    "picture": "http://placehold.it/32x32",
+    "imageUrl": "http://placehold.it/32x32",
     "age": 38,
     "eyeColor": "green",
     "name": {
@@ -125,7 +125,7 @@
     "guid": "5fc42088-3dff-4a1a-96ac-58d2b431f7fa",
     "isActive": false,
     "balance": "$1,177.61",
-    "picture": "http://placehold.it/32x32",
+    "imageUrl": "http://placehold.it/32x32",
     "age": 23,
     "eyeColor": "brown",
     "name": {
@@ -165,7 +165,7 @@
     "guid": "c91d9789-832f-4859-a294-7eb52524824f",
     "isActive": false,
     "balance": "$3,267.86",
-    "picture": "http://placehold.it/32x32",
+    "imageUrl": "http://placehold.it/32x32",
     "age": 27,
     "eyeColor": "blue",
     "name": {
