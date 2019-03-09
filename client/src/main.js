@@ -10,6 +10,14 @@ import VueApollo from "vue-apollo";
 
 import FormAlert from "./components/Shared/FormAlert";
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faCoffee)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
 // Register Global Component
 Vue.component("form-alert", FormAlert);
 

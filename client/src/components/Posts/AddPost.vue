@@ -38,7 +38,7 @@
           <!-- Categories Select -->
           <v-layout row>
             <v-flex xs12>
-              <v-select v-model="categories" :rules="categoriesRules" :items="['Art', 'Education', 'Food', 'Furniture', 'Travel', 'Photography', 'Technology']" multiple label="Categories"></v-select>
+              <v-select v-model="categories" :rules="categoriesRules" :items="[]" multiple label="Categories"></v-select>
             </v-flex>
           </v-layout>
 
@@ -81,7 +81,7 @@ export default {
       description: "",
       titleRules: [
         title => !!title || "Title is required",
-        title => title.length < 20 || "Title must have less than 20 characters"
+        title => title.length < 30 || "Title must have less than 30 characters"
       ],
       imageRules: [image => !!image || "Image is required"],
       categoriesRules: [

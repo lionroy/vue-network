@@ -1,11 +1,24 @@
 <template>
   <v-app style="background: #E3E3EE">
     <!-- Side Navbar -->
-    <v-navigation-drawer app temporary fixed v-model="sideNav">
-      <v-toolbar color="accent" dark flat>
+    <v-navigation-drawer
+      app
+      temporary
+      fixed
+      v-model="sideNav"
+    >
+      <v-toolbar
+        color="amber lighten-2"
+        dark
+        flat
+      >
         <v-toolbar-side-icon @click="toggleSideNav"></v-toolbar-side-icon>
-        <router-link to="/" tag="span" style="cursor: pointer">
-          <h1 class="title pl-3">VueShare</h1>
+        <router-link
+          to="/"
+          tag="span"
+          style="cursor: pointer"
+        >
+          <h1 class="title pl-3 purple--text text--darken-2">Pronto!</h1>
         </router-link>
       </v-toolbar>
 
@@ -13,9 +26,15 @@
 
       <!-- Side Navbar Links -->
       <v-list>
-        <v-list-tile ripple v-for="item in sideNavItems" :key="item.title" :to="item.link">
+        <v-list-tile
+          class="purple--text text-darken-2 font-weight-medium"
+          ripple
+          v-for="item in sideNavItems"
+          :key="item.title"
+          :to="item.link"
+        >
           <v-list-tile-action>
-            <v-icon>{{item.icon}}</v-icon>
+            <v-icon color="purple darken-2">{{item.icon}}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             {{item.title}}
@@ -23,7 +42,10 @@
         </v-list-tile>
 
         <!-- Signout Button -->
-        <v-list-tile v-if="user" @click="handleSignoutUser">
+        <v-list-tile
+          v-if="user"
+          @click="handleSignoutUser"
+        >
           <v-list-tile-action>
             <v-icon>exit_to_app</v-icon>
           </v-list-tile-action>
@@ -34,24 +56,49 @@
     </v-navigation-drawer>
 
     <!-- Horizontal Navbar -->
-    <v-toolbar fixed color="primary" dark>
+    <v-toolbar
+      fixed
+      dark
+      color="purple darken-2"
+    >
       <!-- App Title -->
       <v-toolbar-side-icon @click="toggleSideNav"></v-toolbar-side-icon>
-      <v-toolbar-title class="hidden-xs-only">
-        <router-link to="/" tag="span" style="cursor: pointer">
-          VueShare
+      <v-toolbar-title class="hidden-xs-only font-weight-medium amber--text text--lighten-2">
+        <router-link
+          to="/"
+          tag="span"
+          style="cursor: pointer"
+        >
+          Pronto!
         </router-link>
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
 
       <!-- Search Input -->
-      <v-text-field v-model="searchTerm" @input="handleSearchPosts" flex prepend-icon="search" placeholder="Search posts" color="accent" single-line hide-details></v-text-field>
+      <v-text-field
+        v-model="searchTerm"
+        @input="handleSearchPosts"
+        flex
+        prepend-icon="search"
+        placeholder="Search posts"
+        color="accent"
+        single-line
+        hide-details
+      ></v-text-field>
 
       <!-- Search Results Card -->
-      <v-card dark v-if="searchResults.length" id="search__card">
+      <v-card
+        dark
+        v-if="searchResults.length"
+        id="search__card"
+      >
         <v-list>
-          <v-list-tile v-for="result in searchResults" :key="result._id" @click="goToSearchResult(result._id)">
+          <v-list-tile
+            v-for="result in searchResults"
+            :key="result._id"
+            @click="goToSearchResult(result._id)"
+          >
             <v-list-tile-title>
               {{result.title}} -
               <span class="font-weight-thin">{{formatDescription(result.description)}}</span>
@@ -69,23 +116,52 @@
 
       <!-- Horizontal Navbar Links -->
       <v-toolbar-items class="hidden-xs-only">
-        <v-btn flat v-for="item in horizontalNavItems" :key="item.title" :to="item.link">
-          <v-icon class="hidden-sm-only" left>{{item.icon}}</v-icon>
+        <v-btn
+          flat
+          v-for="item in horizontalNavItems"
+          :key="item.title"
+          :to="item.link"
+        >
+          <v-icon
+            class="hidden-sm-only"
+            left
+          >{{item.icon}}</v-icon>
           {{item.title}}
         </v-btn>
 
         <!-- Profile Button -->
-        <v-btn flat to="/profile" v-if="user">
-          <v-icon class="hidden-sm-only" left>account_box</v-icon>
-          <v-badge right color="blue darken-2" :class="{ 'bounce': badgeAnimated }">
-            <span slot="badge" v-if="userFavorites.length">{{userFavorites.length}}</span>
+        <v-btn
+          flat
+          to="/profile"
+          v-if="user"
+        >
+          <v-icon
+            class="hidden-sm-only"
+            left
+          >account_box</v-icon>
+          <v-badge
+            right
+            color="blue darken-2"
+            :class="{ 'bounce': badgeAnimated }"
+          >
+            <span
+              slot="badge"
+              v-if="userFavorites.length"
+            >{{userFavorites.length}}</span>
             Profile
           </v-badge>
         </v-btn>
 
         <!-- Signout Button -->
-        <v-btn flat v-if="user" @click="handleSignoutUser">
-          <v-icon class="hidden-sm-only" left>exit_to_app</v-icon>
+        <v-btn
+          flat
+          v-if="user"
+          @click="handleSignoutUser"
+        >
+          <v-icon
+            class="hidden-sm-only"
+            left
+          >exit_to_app</v-icon>
           Signout
         </v-btn>
 
@@ -94,26 +170,85 @@
 
     <!-- App Content -->
     <main>
-      <v-container class="mt-4">
+      <v-container
+        class="mt-3"
+        row
+        wrap
+        fluid
+      >
         <transition name="fade">
-          <router-view/>
+          <router-view />
         </transition>
 
         <!-- Auth Snackbar -->
-        <v-snackbar v-model="authSnackbar" color="success" :timeout='5000' bottom left>
+        <v-snackbar
+          v-model="authSnackbar"
+          color="success"
+          :timeout='5000'
+          bottom
+          left
+        >
           <v-icon class="mr-3">check_circle</v-icon>
           <h3>You are now signed in!</h3>
-          <v-btn dark flat @click="authSnackbar = false">Close</v-btn>
+          <v-btn
+            dark
+            flat
+            @click="authSnackbar = false"
+          >Close</v-btn>
         </v-snackbar>
 
         <!-- Auth Error Snackbar -->
-        <v-snackbar v-if="authError" v-model="authErrorSnackbar" color="info" :timeout='5000' bottom left>
+        <v-snackbar
+          v-if="authError"
+          v-model="authErrorSnackbar"
+          color="info"
+          :timeout='5000'
+          bottom
+          left
+        >
           <v-icon class="mr-3">cancel</v-icon>
           <h3>{{authError.message}}</h3>
-          <v-btn dark flat to="/signin">Sign in</v-btn>
+          <v-btn
+            dark
+            flat
+            to="/signin"
+          >Sign in</v-btn>
         </v-snackbar>
 
       </v-container>
+
+      <v-footer
+        bottom
+        dark
+        height="auto"
+      >
+        <v-card
+          class="flex"
+          flat
+          tile
+        >
+          <v-card-title class="secondary">
+            <strong class="subheading">Let's connect on social networks!</strong>
+
+            <v-spacer></v-spacer>
+
+            <v-btn
+              v-for="icon in icons"
+              :key="icon.name"
+              class="mx-3"
+              dark
+              large
+              icon
+            >
+              <v-icon size="24px">{{ icon }}</v-icon>
+            </v-btn>
+          </v-card-title>
+
+          <v-card-actions class="grey darken-3 justify-center">
+            &copy;2018 — <strong>Code by Roy Leon || Powered by Vuetify</strong>
+          </v-card-actions>
+        </v-card>
+      </v-footer>
     </main>
   </v-app>
 </template>
@@ -129,7 +264,29 @@ export default {
       sideNav: false,
       authSnackbar: false,
       authErrorSnackbar: false,
-      badgeAnimated: false
+      badgeAnimated: false,
+      icons: [
+        {
+          name: "Facebook",
+          icon: "fab fa-facebook"
+        },
+        {
+          name: "Twitter",
+          icon: "fab fa-twitter"
+        },
+        {
+          name: "G+",
+          icon: "fab fa-google-plus"
+        },
+        {
+          name: "linkedIn",
+          icon: "fab fa-linkedin"
+        },
+        {
+          name: "instagram",
+          icon: "fab fa-instagram"
+        }
+      ]
     };
   },
   watch: {
@@ -216,6 +373,15 @@ export default {
 </script>
 
 <style>
+h1 {
+  font-weight: 400;
+  font-size: 2.5rem;
+}
+h2 {
+  font-weight: 400;
+  font-size: 2rem;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition-property: opacity;

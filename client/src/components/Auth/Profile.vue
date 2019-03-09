@@ -1,12 +1,12 @@
 <template>
-  <v-container class="text-xs-center">
+  <v-container class="text-xs-center" full-width fluid>
 
     <!-- User Details Card -->
-    <v-flex sm6 offset-sm3>
-      <v-card class="white--text" color="secondary">
+    <v-flex sm12 fluid>
+      <v-card class="white--text" color="teal lighten-2">
         <v-layout>
-          <v-flex xs5>
-            <v-card-media height="125px" contain :src="user.avatar"></v-card-media>
+          <v-flex xs5 mt-2 mb-2>
+            <v-card-media height="128px" contain :src="user.avatar"></v-card-media>
           </v-flex>
           <v-flex xs7>
             <v-card-title primary-title>

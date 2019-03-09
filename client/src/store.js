@@ -212,7 +212,7 @@ export default new Vuex.Store({
           commit("setLoading", false);
           localStorage.setItem("token", data.signinUser.token);
           // to make sure created method is run in main.js (we run getCurrentUser), reload the page
-          router.go();
+          router.go('/profile');
         })
         .catch(err => {
           commit("setLoading", false);

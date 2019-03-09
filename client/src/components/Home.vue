@@ -1,21 +1,85 @@
 <template>
-  <v-container text-xs-center>
+  <v-container
+    grid-list-md
+    text-xs-center
+    fluid
+  >
+    <v-layout
+      row
+      wrap
+    >
+
+      <v-flex md12>
+    <font-awesome-icon icon="coffee" />  
+        <v-parallax
+          height="400"
+          dark
+          src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
+        >
+          <v-layout
+            align-center
+            column
+            justify-center
+          >
+                <h1 class="display-4 amber--text text--lighten-2">PRONTO!</h1>
+                <p>Projects Go Social</p>
+
+          </v-layout>
+        </v-parallax>
+      </v-flex>
+    </v-layout>
+
+    <v-layout
+      class="mt-2 mb-3"
+      row
+      wrap
+      v-if="!loading"
+    >
+
+    </v-layout>
     <v-layout row>
-      <v-dialog v-model="loading" persistent fullscreen>
+      <v-dialog
+        v-model="loading"
+        persistent
+        fullscreen
+      >
         <v-container fill-height>
-          <v-layout row justify-center align-center>
-            <v-progress-circular indeterminate :size="70" :width="7" color="secondary"></v-progress-circular>
+          <v-layout
+            row
+            justify-center
+            align-center
+          >
+            <v-progress-circular
+              indeterminate
+              :size="70"
+              :width="7"
+              color="secondary"
+            ></v-progress-circular>
           </v-layout>
         </v-container>
       </v-dialog>
     </v-layout>
 
+    <!-- Carousel Posts -->
     <v-flex xs12>
-      <v-carousel v-if="!loading && posts.length > 0" v-bind="{ 'cycle': true }" interval="3000">
-        <v-carousel-item v-for="post in posts" :key="post._id" :src="post.imageUrl" @click.native="goToPost(post._id)">
-          <h1 id="carousel__title">{{post.title}}</h1>
-        </v-carousel-item>
-      </v-carousel>
+      <v-card position="relative">
+        <v-carousel
+          v-if="!loading && posts.length > 0"
+          v-bind="{ 'cycle': true }"
+          interval="10000"
+        >
+          <v-carousel-item
+            v-for="post in posts"
+            :key="post._id"
+            :src="post.imageUrl"
+            @click.native="goToPost(post._id)"
+          >
+            <h1 id="carousel__title">{{post.title}}</h1>
+          </v-carousel-item>
+        </v-carousel>
+
+      </v-card>
+
     </v-flex>
   </v-container>
 </template>
@@ -48,6 +112,7 @@ export default {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
+  cursor: pointer;
   border-radius: 5px 5px 0 0;
   padding: 0.5em;
   margin: 0 auto;

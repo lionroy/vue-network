@@ -29,7 +29,7 @@
 
           <v-card-text>
             <span v-for="(category, index) in getPost.categories" :key="index">
-              <v-chip class="mb-3" color="accent" text-color="white">{{category}}</v-chip>
+              <v-chip class="mb-3" color="accent" text-color="whitesmoke">{{category}}</v-chip>
             </span>
             <h3>{{getPost.description}}</h3>
           </v-card-text>
