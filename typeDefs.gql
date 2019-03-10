@@ -6,6 +6,7 @@ type User {
 	avatar: String
 	joinDate: String
 	favorites: [Post]
+	userProjects: [Project]
 }
 
 type Post {
@@ -61,7 +62,7 @@ type LikesFaves {
 
 type LikesPros {
 	likes: Int
-	favorites: [Project]
+	userProjects: [Project]
 }
 
 type Query {

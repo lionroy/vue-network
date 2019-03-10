@@ -56,7 +56,9 @@ export default new Vuex.Store({
       state.userPosts = payload;
     },
     setUserProjects: (state, payload) => {
-      state.userProjects = payload;
+      state.user !== null
+        ? (state.user.projects = payload)
+        : (state.user.projects = []);
     },
     setLoading: (state, payload) => {
       state.loading = payload;
@@ -69,7 +71,96 @@ export default new Vuex.Store({
     },
     clearUser: state => (state.user = null),
     clearSearchResults: state => (state.searchResults = []),
-    clearError: state => (state.error = null),
+    clearError: state => (state.error = null)
+  },
+  actions: {
+    getCurrentUser: ({ commit }) => {
+      commit("setLoading", true);
+      apolloClient
+        .query({
+          query: GET_CURRENT_USER
+        })
+        .then(({ data }) => {
+          commit("setLoading", false);
+          // Add user data to state
+          commit("setUser", data.getCurrentUser);
+          console.log(data.getCurrentUser);
+        })
+        .catch(err => {
+          commit("setLoading", false);
+          console.error(err);
+        });
+    },
+    getPosts: ({ commit }) => {
+      commit("setLoading", true);
+      apolloClient
+        .query({
+          query: GET_POSTS
+        })
+        .then(({ data }) => {
+          commit("setPosts", data.getPosts);
+          commit("setLoading", false);
+        })
+        .catch(err => {
+          commit("setLoading", false);
+          console.error(err);
+        });
+    },
+    getProjects: ({ commit }) => {
+      commit("setLoading", true);
+      apolloClient
+        .query({
+          query: GET_PROJECTS
+        })
+        .then(({ data }) => {
+          commit("setProjects", data.getProjects);
+          commit("setLoading", false);
+        })
+        .catch(err => {
+          commit("setLoading", false);
+          console.error(err);
+        });
+    },
+    getUserPosts: ({ commit }, payload) => {
+      apolloClient
+        .query({
+          query: GET_USER_POSTS,
+          variables: payload
+        })
+        .then(({ data }) => {
+          commit("setUserPosts", data.getUserPosts);
+          // console.log(data.getUserPosts);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    },
+    getUserProjects: ({ commit }, payload) => {
+      apolloClient
+        .query({
+          query: GET_USER_PROJECTS,
+          variables: payload
+        })
+        .then(({ data }) => {
+          commit("setUserProjects", data.getUserProjects);
+          // console.log(data.getUserProjects);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    },
+    searchPosts: ({ commit }, payload) => {
+      apolloClient
+        .query({
+          query: SEARCH_POSTS,
+          variables: payload
+        })
+        .then(({ data }) => {
+          commit("setSearchResults", data.searchPosts);
+        })
+        .catch(err => console.error(err));
+    },
+    // searchProjects: () => {},
     addPost: ({ commit }, payload) => {
       apolloClient
         .mutate({
@@ -279,96 +370,7 @@ export default new Vuex.Store({
           commit("setError", err);
           console.error(err);
         });
-    }
-  },
-  actions: {
-    getCurrentUser: ({ commit }) => {
-      commit("setLoading", true);
-      apolloClient
-        .query({
-          query: GET_CURRENT_USER
-        })
-        .then(({ data }) => {
-          commit("setLoading", false);
-          // Add user data to state
-          commit("setUser", data.getCurrentUser);
-          console.log(data.getCurrentUser);
-        })
-        .catch(err => {
-          commit("setLoading", false);
-          console.error(err);
-        });
     },
-    getPosts: ({ commit }) => {
-      commit("setLoading", true);
-      apolloClient
-        .query({
-          query: GET_POSTS
-        })
-        .then(({ data }) => {
-          commit("setPosts", data.getPosts);
-          commit("setLoading", false);
-        })
-        .catch(err => {
-          commit("setLoading", false);
-          console.error(err);
-        });
-    },
-    getProjects: ({ commit }) => {
-      commit("setLoading", true);
-      apolloClient
-        .query({
-          query: GET_PROJECTS
-        })
-        .then(({ data }) => {
-          commit("setProjects", data.getProjects);
-          commit("setLoading", false);
-        })
-        .catch(err => {
-          commit("setLoading", false);
-          console.error(err);
-        });
-    },
-    getUserPosts: ({ commit }, payload) => {
-      apolloClient
-        .query({
-          query: GET_USER_POSTS,
-          variables: payload
-        })
-        .then(({ data }) => {
-          commit("setUserPosts", data.getUserPosts);
-          // console.log(data.getUserPosts);
-        })
-        .catch(err => {
-          console.error(err);
-        });
-    },
-    getUserProjects: ({ commit }, payload) => {
-      apolloClient
-        .query({
-          query: GET_USER_PROJECTS,
-          variables: payload
-        })
-        .then(({ data }) => {
-          commit("setUserProjects", data.getUserProjects);
-          // console.log(data.getUserProjects);
-        })
-        .catch(err => {
-          console.error(err);
-        });
-    },
-    searchPosts: ({ commit }, payload) => {
-      apolloClient
-        .query({
-          query: SEARCH_POSTS,
-          variables: payload
-        })
-        .then(({ data }) => {
-          commit("setSearchResults", data.searchPosts);
-        })
-        .catch(err => console.error(err));
-    },
-
     signoutUser: async ({ commit }) => {
       // clear user in state
       commit("clearUser");
@@ -384,7 +386,7 @@ export default new Vuex.Store({
     posts: state => state.posts,
     projects: state => state.projects,
     userPosts: state => state.userPosts,
-    userProjects: state => state.userProjects,
+    userProjects: state => state.user && state.user.projects,
     searchResults: state => state.searchResults,
     user: state => state.user,
     userFavorites: state => state.user && state.user.favorites,

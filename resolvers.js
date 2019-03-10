@@ -298,17 +298,17 @@ module.exports = {
         { $inc: { likes: 1 } },
         { new: true }
       );
-      // Find User, add id of project to its favorites array (which will be populated as Projects)
+      // Find User, add id of project to its userProjects array (which will be populated as Projects)
       const user = await User.findOneAndUpdate(
         { username },
-        { $addToSet: { favorites: projectId } },
+        { $addToSet: { userProjects: projectId } },
         { new: true }
       ).populate({
-        path: "favorites",
+        path: "userProjects",
         model: "Project"
       });
-      // Return only likes from 'project' and favorites from 'user'
-      return { likes: project.likes, favorites: user.favorites };
+      // Return only likes from 'project' and projects from 'user'
+      return { likes: project.likes, userProjects: user.projects };
     },
     unlikeProject: async (_, { projectId, username }, { Project, User }) => {
       // Find Project, add -1 to its 'like' value
@@ -317,20 +317,20 @@ module.exports = {
         { $inc: { likes: -1 } },
         { new: true }
       );
-      // Find User, remove id of project from its favorites array (which will be populated as Projects)
+      // Find User, remove id of project from its userProjects array (which will be populated as Projects)
       const user = await User.findOneAndUpdate(
         { username },
-        { $pull: { favorites: projectId } },
+        { $pull: { userProjects: projectId } },
         { new: true }
       ).populate({
-        path: "favorites",
+        path: "userProjects",
         model: "Project"
       });
-      // Return only likes from 'project' and favorites from 'user'
-      return { likes: project.likes, favorites: user.favorites };
+      // Return only likes from 'project' and projects from 'user'
+      return { likes: project.likes, userProjects: user.projects };
     },
  /* Project mutation ended */
-
+    
     signinUser: async (_, { username, password }, { User }) => {
       const user = await User.findOne({ username });
       if (!user) {

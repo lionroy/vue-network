@@ -21,6 +21,9 @@ export const GET_POST = gql`
       description
       likes
       createdDate
+      createdBy {
+        _id
+      }
       messages {
         _id
         messageBody
@@ -58,6 +61,11 @@ export const GET_CURRENT_USER = gql`
       avatar
       joinDate
       favorites {
+        _id
+        title
+        imageUrl
+      }
+      projects {
         _id
         title
         imageUrl
@@ -259,7 +267,6 @@ export const SEARCH_PROJECTS = gql`
   }
 `;
 
-
 export const GET_USER_PROJECTS = gql`
   query($userId: ID!) {
     getUserProjects(userId: $userId) {
@@ -272,7 +279,6 @@ export const GET_USER_PROJECTS = gql`
     }
   }
 `;
-
 
 export const INFINITE_SCROLL_PROJECTS = gql`
   query($pageNum: Int!, $pageSize: Int!) {
@@ -321,7 +327,6 @@ export const ADD_PROJECT = gql`
     }
   }
 `;
-
 
 export const UPDATE_USER_PROJECT = gql`
   mutation(
@@ -386,7 +391,7 @@ export const LIKE_PROJECT = gql`
   mutation($projectId: ID!, $username: String!) {
     likeProject(projectId: $projectId, username: $username) {
       likes
-      favorites {
+      UserProjects {
         _id
         title
         imageUrl
@@ -399,7 +404,7 @@ export const UNLIKE_PROJECT = gql`
   mutation($projectId: ID!, $username: String!) {
     unlikeProject(projectId: $projectId, username: $username) {
       likes
-      favorites {
+      UserProjects {
         _id
         title
         imageUrl
@@ -407,7 +412,6 @@ export const UNLIKE_PROJECT = gql`
     }
   }
 `;
-
 
 /* User Mutations */
 export const SIGNIN_USER = gql`

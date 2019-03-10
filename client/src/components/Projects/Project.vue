@@ -8,7 +8,7 @@
           <v-card-title>
             <h1>{{getProject.title}}</h1>
             <v-btn @click="handleToggleLike" large icon v-if="user">
-              <v-icon large :color="checkIfProjectLiked(getProject._id) ? 'red' : 'grey'">favorite</v-icon>
+              <v-icon large :color="checkIfProjectLiked(getProject._id) ? 'red' : 'grey'">like project</v-icon>
             </v-btn>
             <h3 class="ml-3 font-weight-thin">{{getProject.likes}} LIKES</h3>
             <v-spacer></v-spacer>
@@ -128,17 +128,17 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["user", "userFavorites"])
+    ...mapGetters(["user", "userProjects"])
   },
   methods: {
     getTimeFromNow(time) {
       return moment(new Date(time)).fromNow();
     },
     checkIfProjectLiked(projectId) {
-      // check if user favorites includes project with id of 'projectId'
+      // check if user userProjects includes project with id of 'projectId'
       if (
-        this.userFavorites &&
-        this.userFavorites.some(fave => fave._id === projectId)
+        this.userProjects &&
+        this.userProjects.some(proj => proj._id === projectId)
       ) {
         this.projectLiked = true;
         return true;
@@ -179,7 +179,7 @@ export default {
         .then(({ data }) => {
           const updatedUser = {
             ...this.user,
-            favorites: data.likeProject.favorites
+            projects: data.likeProject.userProjects
           };
           this.$store.commit("setUser", updatedUser);
         })
@@ -210,7 +210,7 @@ export default {
         .then(({ data }) => {
           const updatedUser = {
             ...this.user,
-            favorites: data.unlikeProject.favorites
+            projects: data.unlikeProject.userProjects
           };
           this.$store.commit("setUser", updatedUser);
         })
