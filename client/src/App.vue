@@ -18,7 +18,7 @@
           tag="span"
           style="cursor: pointer"
         >
-          <h1 class="title pl-3 purple--text text--darken-2">Pronto!</h1>
+          <h1 class="title pl-3 indigo--text text--darken-2">Pronto!</h1>
         </router-link>
       </v-toolbar>
 
@@ -27,14 +27,14 @@
       <!-- Side Navbar Links -->
       <v-list>
         <v-list-tile
-          class="purple--text text-darken-2 font-weight-medium"
+          class="indigo--text text-darken-1 font-weight-medium"
           ripple
           v-for="item in sideNavItems"
           :key="item.title"
           :to="item.link"
         >
           <v-list-tile-action>
-            <v-icon color="purple darken-2">{{item.icon}}</v-icon>
+            <v-icon color="indigo darken-1">{{item.icon}}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             {{item.title}}
@@ -59,7 +59,7 @@
     <v-toolbar
       fixed
       dark
-      color="purple darken-2"
+      color="indigo lighten-2"
     >
       <!-- App Title -->
       <v-toolbar-side-icon @click="toggleSideNav"></v-toolbar-side-icon>
@@ -319,7 +319,10 @@ export default {
         { icon: "create", title: "Sign Up", link: "/signup" }
       ];
       if (this.user) {
-        items = [{ icon: "chat", title: "Posts", link: "/posts" }];
+        items = [
+          { icon: "dashboard", title: "Dashboard", link: "/dashboard" },
+          { icon: "chat", title: "Posts", link: "/posts" }
+        ];
       }
       return items;
     },
@@ -331,6 +334,7 @@ export default {
       ];
       if (this.user) {
         items = [
+          { icon: "dashboard", title: "Dashboard", link: "/dashboard" },
           { icon: "chat", title: "Posts", link: "/posts" },
           { icon: "stars", title: "Create Post", link: "/post/add" },
           { icon: "account_box", title: "Profile", link: "/profile" }

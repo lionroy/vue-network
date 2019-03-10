@@ -2,6 +2,11 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./components/Home.vue";
 
+import Dashboard from "./components/Projects/Dashboard.vue";
+import AddProject from './components/Projects/AddProject.vue';
+import Project from './components/Projects/Project.vue';
+import Projects from './components/Projects/Projects.vue';
+
 import AddPost from "./components/Posts/AddPost.vue";
 import Posts from "./components/Posts/Posts.vue";
 import Post from "./components/Posts/Post.vue";
@@ -24,6 +29,11 @@ export default new Router({
       component: Home
     },
     {
+      path: "/dashboard",
+      name: "Dashboard",
+      component: Dashboard
+    },
+    {
       path: "/posts",
       name: "Posts",
       component: Posts
@@ -38,6 +48,23 @@ export default new Router({
       path: "/post/add",
       name: "AddPost",
       component: AddPost,
+      beforeEnter: AuthGuard
+    },
+    {
+      path: "/projects",
+      name: "Projects",
+      component: Projects
+    },
+    {
+      path: "/projects/:projectId",
+      name: "Project",
+      component: Project,
+      props: true
+    },
+    {
+      path: "/project/add",
+      name: "AddProject",
+      component: AddProject,
       beforeEnter: AuthGuard
     },
     {

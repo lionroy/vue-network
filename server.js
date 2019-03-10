@@ -13,6 +13,7 @@ const resolvers = require("./resolvers");
 require("dotenv").config({ path: "variables.env" });
 const User = require("./models/User");
 const Post = require("./models/Post");
+const Project = require("./models/Project");
 
 // Connect to MLab Database
 mongoose
@@ -46,7 +47,7 @@ const server = new ApolloServer({
   }),
   context: async ({ req }) => {
     const token = req.headers["authorization"];
-    return { User, Post, currentUser: await getUser(token) };
+    return { User, Post, Project, currentUser: await getUser(token) };
   }
 });
 

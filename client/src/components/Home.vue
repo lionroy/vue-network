@@ -9,10 +9,9 @@
       wrap
     >
 
-      <v-flex md12>
-    <font-awesome-icon icon="coffee" />  
+      <v-flex md12 fluid>
         <v-parallax
-          height="400"
+          height="600"
           dark
           src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
         >
@@ -23,6 +22,7 @@
           >
                 <h1 class="display-4 amber--text text--lighten-2">PRONTO!</h1>
                 <p>Projects Go Social</p>
+    <font-awesome-icon large icon="coffee" />  
 
           </v-layout>
         </v-parallax>

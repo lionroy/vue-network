@@ -84,9 +84,76 @@ module.exports = {
       const totalDocs = await Post.countDocuments();
       const hasMore = totalDocs > pageSize * pageNum;
       return { posts, hasMore };
+    },
+    /* Projects Section */
+    getProjects: async (_, args, { Project }) => {
+      const projects = await Project.find({})
+        .sort({ createdDate: "desc" })
+        .populate({
+          path: "createdBy",
+          model: "User"
+        });
+      return projects;
+    },
+    getUserProjects: async (_, { userId }, { Project }) => {
+      const projects = await Project.find({
+        createdBy: userId
+      });
+      return projects;
+    },
+    getProject: async (_, { projectId }, { Project }) => {
+      const project = await Project.findOne({ _id: projectId }).populate({
+        path: "messages.messageUser",
+        model: "User"
+      });
+      return project;
+    },
+    searchProjects: async (_, { searchTerm }, { Project }) => {
+      if (searchTerm) {
+        const searchResults = await Project.find(
+          // Perform text search for search value of 'searchTerm'
+          { $text: { $search: searchTerm } },
+          // Assign 'searchTerm' a text score to provide best match
+          { score: { $meta: "textScore" } }
+          // Sort results according to that textScore (as well as by likes in descending order)
+        )
+          .sort({
+            score: { $meta: "textScore" },
+            likes: "desc"
+          })
+          .limit(5);
+        return searchResults;
+      }
+    },
+    infiniteScrollProjects: async (_, { pageNumPro, pageSizePro }, { Project }) => {
+      let projects;
+      if (pageNumPro === 1) {
+        projects = await Project.find({})
+          .sort({ createdDate: "desc" })
+          .populate({
+            path: "createdBy",
+            model: "User"
+          })
+          .limit(pageSizePro);
+      } else {
+        // If page number is greater than one, figure out how many documents to skip
+        const skipsPro = pageSizePro * (pageNumPro - 1);
+        projects = await Project.find({})
+          .sort({ createdDate: "desc" })
+          .populate({
+            path: "createdBy",
+            model: "User"
+          })
+          .skip(skipsPro)
+          .limit(pageSizePro);
+      }
+      const totalDocsPro = await Project.countDocuments();
+      const hasMorePro = totalDocsPro > pageSizePro * pageNumPro;
+      return { projects, hasMorePro };
     }
   },
   Mutation: {
+    /* Posts Mutations */
     addPost: async (
       _,
       { title, imageUrl, categories, description, creatorId },
@@ -174,6 +241,96 @@ module.exports = {
       // Return only likes from 'post' and favorites from 'user'
       return { likes: post.likes, favorites: user.favorites };
     },
+    /* Project Mutations */
+    addProject: async (
+      _,
+      { title, imageUrl, categories, description, creatorId },
+      { Project }
+    ) => {
+      const newProject = await new Project({
+        title,
+        imageUrl,
+        categories,
+        description,
+        createdBy: creatorId
+      }).save();
+      return newProject;
+    },
+    updateUserProject: async (
+      _,
+      { projectId, userId, title, imageUrl, categories, description },
+      { Project }
+    ) => {
+      const project = await Project.findOneAndUpdate(
+        // Find project by projectId and createdBy
+        { _id: projectId, createdBy: userId },
+        { $set: { title, imageUrl, categories, description } },
+        { new: true }
+      );
+      return project;
+    },
+    deleteUserProject: async (_, { projectId }, { Project }) => {
+      const project = await Project.findOneAndRemove({ _id: projectId });
+      return project;
+    },
+    addProjectMessage: async (_, { messageBody, userId, projectId }, { Project }) => {
+      const newMessage = {
+        messageBody,
+        messageUser: userId
+      };
+      const project = await Project.findOneAndUpdate(
+        // find project by id
+        { _id: projectId },
+        // prepend (push) new message to beginning of messages array
+        { $push: { messages: { $each: [newMessage], $position: 0 } } },
+        // return fresh document after update
+        { new: true }
+      ).populate({
+        path: "messages.messageUser",
+        model: "User"
+      });
+      return project.messages[0];
+    },
+    likeProject: async (_, { projectId, username }, { Project, User }) => {
+      // Find Project, add 1 to its 'like' value
+      const project = await Project.findOneAndUpdate(
+        { _id: projectId },
+        { $inc: { likes: 1 } },
+        { new: true }
+      );
+      // Find User, add id of project to its favorites array (which will be populated as Projects)
+      const user = await User.findOneAndUpdate(
+        { username },
+        { $addToSet: { favorites: projectId } },
+        { new: true }
+      ).populate({
+        path: "favorites",
+        model: "Project"
+      });
+      // Return only likes from 'project' and favorites from 'user'
+      return { likes: project.likes, favorites: user.favorites };
+    },
+    unlikeProject: async (_, { projectId, username }, { Project, User }) => {
+      // Find Project, add -1 to its 'like' value
+      const project = await Project.findOneAndUpdate(
+        { _id: projectId },
+        { $inc: { likes: -1 } },
+        { new: true }
+      );
+      // Find User, remove id of project from its favorites array (which will be populated as Projects)
+      const user = await User.findOneAndUpdate(
+        { username },
+        { $pull: { favorites: projectId } },
+        { new: true }
+      ).populate({
+        path: "favorites",
+        model: "Project"
+      });
+      // Return only likes from 'project' and favorites from 'user'
+      return { likes: project.likes, favorites: user.favorites };
+    },
+ /* Project mutation ended */
+
     signinUser: async (_, { username, password }, { User }) => {
       const user = await User.findOne({ username });
       if (!user) {
