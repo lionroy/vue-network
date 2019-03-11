@@ -57,8 +57,8 @@ export default new Vuex.Store({
     },
     setUserProjects: (state, payload) => {
       state.user !== null
-        ? (state.user.projects = payload)
-        : (state.user.projects = []);
+        ? (state.user.userProjects = payload)
+        : (state.user.userProjects = []);
     },
     setLoading: (state, payload) => {
       state.loading = payload;

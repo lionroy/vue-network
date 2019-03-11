@@ -28,8 +28,13 @@ const UserSchema = new mongoose.Schema({
   },
   favorites: {
     type: [mongoose.Schema.Types.ObjectId],
-    required: true,
+    required: false,
     ref: "Post"
+  },
+  userProjects: {
+    type: [mongoose.Schema.Types.ObjectId],
+    required: false,
+    ref: "Project"
   }
 });
 

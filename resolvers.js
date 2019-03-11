@@ -110,7 +110,7 @@ module.exports = {
     },
     searchProjects: async (_, { searchTerm }, { Project }) => {
       if (searchTerm) {
-        const searchResults = await Project.find(
+        const searchResultsPro = await Project.find(
           // Perform text search for search value of 'searchTerm'
           { $text: { $search: searchTerm } },
           // Assign 'searchTerm' a text score to provide best match
@@ -122,7 +122,7 @@ module.exports = {
             likes: "desc"
           })
           .limit(5);
-        return searchResults;
+        return searchResultsPro;
       }
     },
     infiniteScrollProjects: async (_, { pageNumPro, pageSizePro }, { Project }) => {
@@ -308,7 +308,7 @@ module.exports = {
         model: "Project"
       });
       // Return only likes from 'project' and projects from 'user'
-      return { likes: project.likes, userProjects: user.projects };
+      return { likes: project.likes, userProjects: user.userProjects };
     },
     unlikeProject: async (_, { projectId, username }, { Project, User }) => {
       // Find Project, add -1 to its 'like' value
@@ -327,7 +327,7 @@ module.exports = {
         model: "Project"
       });
       // Return only likes from 'project' and projects from 'user'
-      return { likes: project.likes, userProjects: user.projects };
+      return { likes: project.likes, userProjects: user.userProjects };
     },
  /* Project mutation ended */
     

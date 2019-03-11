@@ -65,7 +65,7 @@ export const GET_CURRENT_USER = gql`
         title
         imageUrl
       }
-      projects {
+      userProjects {
         _id
         title
         imageUrl
@@ -284,7 +284,7 @@ export const INFINITE_SCROLL_PROJECTS = gql`
   query($pageNum: Int!, $pageSize: Int!) {
     infiniteScrollProjects(pageNum: $pageNum, pageSize: $pageSize) {
       hasMorePro
-      projects {
+      userProjects {
         _id
         title
         categories

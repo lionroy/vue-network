@@ -10,7 +10,7 @@
             <v-btn @click="handleToggleLike" large icon v-if="user">
               <v-icon large :color="checkIfProjectLiked(getProject._id) ? 'red' : 'grey'">like project</v-icon>
             </v-btn>
-            <h3 class="ml-3 font-weight-thin">{{getProject.likes}} LIKES</h3>
+            <h3 class="ml-3 font-weight-thin">{{getProject.likesPro}} LIKES</h3>
             <v-spacer></v-spacer>
             <v-icon @click="goToPreviousPage" color="info" large>arrow_back</v-icon>
           </v-card-title>
@@ -168,7 +168,7 @@ export default {
               query: GET_PROJECT,
               variables: { projecId: this.projectId }
             });
-            data.getProject.likes += 1;
+            data.getProject.likesPro += 1;
             cache.writeQuery({
               query: GET_PROJECT,
               variables: { projectId: this.projectId },
@@ -199,7 +199,7 @@ export default {
               query: GET_PROJECT,
               variables: { projectId: this.projectId }
             });
-            data.getProject.likes -= 1;
+            data.getProject.likesPro -= 1;
             cache.writeQuery({
               query: GET_PROJECT,
               variables: { projectId: this.projectId },

@@ -28,7 +28,7 @@ type Project {
 	categories: [String]!
 	description: String!
 	createdDate: String
-	likes: Int
+	likesPro: Int
 	createdBy: User!
 	messages: [Message]
 }
@@ -61,7 +61,7 @@ type LikesFaves {
 }
 
 type LikesPros {
-	likes: Int
+	likesPro: Int
 	userProjects: [Project]
 }
 
